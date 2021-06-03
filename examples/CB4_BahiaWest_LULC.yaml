@@ -26,8 +26,8 @@ ml_model: "sits_rfor(num_trees = 1000)"
 #
 collection     : "CB4_64_16D_STK-1"
 
-start_date     : "2018-08-01"
-end_date       : "2019-09-31"
+start_date     : "2018-09-01"
+end_date       : "2019-08-31"
 
 bands          : "BAND13,BAND14,BAND15,BAND16,EVI,NDVI"
 
