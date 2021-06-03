@@ -68,13 +68,15 @@ ml_model <- sits_train(data      = samples,
 probs_cube <- sits_classify(cube,
                             ml_model   = ml_model,
                             output_dir = output_path,
+                            multicores = multicores,
                             memsize    = memsize)
 
 #
 # Classify Smoothed Map
 #
 probs_smoothed_cube <- sits_smooth(probs_cube,
-                                   output_dir = output_path)
+                                   output_dir = output_path,
+                                   memsize    = memsize)
 
 label_cube <- sits_label_classification(probs_smoothed_cube,
                                         output_dir = output_path)
