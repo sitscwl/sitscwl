@@ -55,7 +55,7 @@ cube <- sits_cube(
 samples <- readRDS(args[8])
 
 #
-# Training Random Forest Model
+# Training ML  Model
 #
 ml_model <- sits_train(data      = samples,
                        ml_method = eval(parse(
