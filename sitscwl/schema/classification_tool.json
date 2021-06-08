@@ -1,0 +1,63 @@
+{
+  "inputs": [
+    {
+      "name": "script",
+      "type": "File",
+      "inputBindingPosition": 0
+    },
+    {
+      "name": "collection",
+      "type": "string",
+      "inputBindingPosition": 1
+    },
+    {
+      "name": "start_date",
+      "type": "string",
+      "inputBindingPosition": 2
+    },
+    {
+      "name": "end_date",
+      "type": "string",
+      "inputBindingPosition": 3
+    },
+    {
+      "name": "bands",
+      "type": "string",
+      "inputBindingPosition": 4
+    },
+    {
+      "name": "tile",
+      "type": "string",
+      "inputBindingPosition": 5
+    },
+    {
+      "name": "memsize",
+      "type": "int",
+      "inputBindingPosition": 6
+    },
+    {
+      "name": "cpusize",
+      "type": "int",
+      "inputBindingPosition": 7
+    },
+    {
+      "name": "samples",
+      "type": "File",
+      "inputBindingPosition": 8
+    },
+    {
+      "name": "ml_model",
+      "type": "string",
+      "inputBindingPosition": 9
+    },
+    {
+      "name": "bdc_access_token",
+      "type": "string",
+      "inputBindingPosition": 10
+    }
+  ],
+  "outputs": [
+    {
+    }
+  ]
+}
