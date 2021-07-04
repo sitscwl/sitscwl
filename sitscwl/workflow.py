@@ -81,7 +81,8 @@ class ClassificationWorkflow(object):
             self._workflow.add_step(
                 tool_obj,
                 scatter=None if not inputs_with_scatter else inputs_with_scatter,
-                scatter_method=scatter_method
+                scatter_method=scatter_method,
+                unique_names=False  # unique_names is added on https://github.com/M3nin0/sevenbridges-cwl/blob/master/sbg/cwl/v1_0/wf/workflow.py
             )
 
         # check connections
