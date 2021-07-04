@@ -1,7 +1,7 @@
 {
   "inputs": [
     {
-      "name": "script_classification",
+      "name": "script_extract_timeseries",
       "type": "File",
       "inputBindingPosition": 0
     },
@@ -26,47 +26,31 @@
       "inputBindingPosition": 4
     },
     {
-      "name": "tiles",
-      "type": "string[]",
-      "isScatter": true,
+      "name": "sample_tiles",
+      "type": "string",
       "inputBindingPosition": 5
-    },
-    {
-      "name": "memsize",
-      "type": "int",
-      "inputBindingPosition": 6
-    },
-    {
-      "name": "cpusize",
-      "type": "int",
-      "inputBindingPosition": 7
     },
     {
       "name": "sample_file",
       "type": "File",
-      "inputBindingPosition": 8
-    },
-    {
-      "name": "ml_model",
-      "type": "string",
-      "inputBindingPosition": 9
+      "inputBindingPosition": 6
     },
     {
       "name": "bdc_url",
       "type": "string",
-      "inputBindingPosition": 10
+      "inputBindingPosition": 7
     },
     {
       "name": "bdc_access_token",
       "type": "string",
-      "inputBindingPosition": 11
+      "inputBindingPosition": 8
     }
   ],
   "outputs": [
     {
-      "name": "classified_tile",
-      "type": "Directory",
-      "outputBindingGlob": "data"
+      "name": "sample_with_extracted_ts",
+      "type": "File",
+      "outputBindingGlob": "data/samples_with_ts.rds"
     }
   ]
 }

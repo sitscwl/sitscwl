@@ -4,14 +4,16 @@ library(sf)
 library(sits)
 
 #
-# CLI Arguments [collection, start_date, end_date, tile, memsize, cpusize, samples file, bdc_access_token]
+# CLI Arguments [collection, start_date, end_date, bands, tile, memsize, cpusize, samples_file, ml_model, bdc_url, bdc_access_token]
 #
 args <- commandArgs(TRUE)
+
+print(args)
 
 #
 # Defining Access Token
 #
-Sys.setenv("BDC_ACCESS_KEY" = args[10])
+Sys.setenv("BDC_ACCESS_KEY" = args[11])
 
 #
 # General definitions
@@ -39,9 +41,9 @@ multicores <- as.numeric(args[7])
 # Defining Data Cube
 #
 cube <- sits_cube(
-  type = "BDC",
+  source = "BDC",
   name = "cube",
-  url = "https://brazildatacube.dpi.inpe.br/stac/",
+  url = args[10],
   collection = collection,
   start_date = start_date,
   end_date = end_date,
