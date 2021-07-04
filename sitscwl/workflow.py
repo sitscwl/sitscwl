@@ -1,3 +1,4 @@
+import itertools
 import json
 from typing import Dict
 from typing import List
@@ -53,7 +54,7 @@ class ClassificationWorkflow(object):
     def workflow(self):
         return self._workflow
 
-    def add_tools(self, tools):
+    def add_tools(self, tools, connections):
 
         use_scatter = False
 
@@ -83,6 +84,24 @@ class ClassificationWorkflow(object):
                 scatter_method=scatter_method
             )
 
+        # check connections
+        def _remove_duplications(x, valid_connection):
+            if isinstance(x['source'], list) and len(x['source']) > 1:
+                for source in x['source']:
+                    if source == valid_connection.replace(".", "/"):
+                        x['source'] = source
+            return x
+
+        for connection in connections:
+            self._workflow.add_connection(connection["source"], connection["target"])
+
+            # remove duplicated 'in' values from steps!
+            # the 'duplicated' values is inserted with connections, so it's necessary remove them
+            for idx, step in enumerate(self._workflow.steps):
+                self._workflow.steps[idx]['in'] = list(
+                    map(_remove_duplications, step['in'], itertools.repeat(connection["source"]))
+                )
+
         # variable changed in scatter variable search
         if use_scatter:
             self._workflow.add_requirement(cwl.ScatterFeature())
@@ -92,9 +111,10 @@ class ClassificationWorkflow(object):
 
 
 from . import TOOLS_DEFINITION
+from . import TOOLS_CONNECTIONS
 
 classification_workflow = ClassificationWorkflow()
-classification_workflow.add_tools(TOOLS_DEFINITION)
+classification_workflow.add_tools(TOOLS_DEFINITION, TOOLS_CONNECTIONS)
 
 __all__ = (
     "classification_workflow"

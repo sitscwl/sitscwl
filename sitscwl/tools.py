@@ -120,7 +120,7 @@ def tool_builder(id: str, base_command: str, schema: str, requirements: list, hi
                 .add_output_schema(schema_definitions.get("outputs"))
                 .add_requirements(requirements)
                 .add_hints(hints)
-        )
+        ).build()
 
 
 __all__ = (
