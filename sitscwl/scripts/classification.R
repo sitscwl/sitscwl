@@ -8,8 +8,6 @@ library(sits)
 #
 args <- commandArgs(TRUE)
 
-print(args)
-
 #
 # Defining Access Token
 #
