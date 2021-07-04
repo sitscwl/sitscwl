@@ -1,0 +1,72 @@
+{
+  "inputs": [
+    {
+      "name": "script_classification",
+      "type": "File",
+      "inputBindingPosition": 0
+    },
+    {
+      "name": "collection",
+      "type": "string",
+      "inputBindingPosition": 1
+    },
+    {
+      "name": "start_date",
+      "type": "string",
+      "inputBindingPosition": 2
+    },
+    {
+      "name": "end_date",
+      "type": "string",
+      "inputBindingPosition": 3
+    },
+    {
+      "name": "bands",
+      "type": "string",
+      "inputBindingPosition": 4
+    },
+    {
+      "name": "tiles",
+      "type": "string[]",
+      "isScatter": true,
+      "inputBindingPosition": 5
+    },
+    {
+      "name": "memsize",
+      "type": "int",
+      "inputBindingPosition": 6
+    },
+    {
+      "name": "cpusize",
+      "type": "int",
+      "inputBindingPosition": 7
+    },
+    {
+      "name": "sample_file",
+      "type": "File",
+      "inputBindingPosition": 8
+    },
+    {
+      "name": "ml_model",
+      "type": "string",
+      "inputBindingPosition": 9
+    },
+    {
+      "name": "bdc_url",
+      "type": "string",
+      "inputBindingPosition": 10
+    },
+    {
+      "name": "bdc_access_token",
+      "type": "string",
+      "inputBindingPosition": 11
+    }
+  ],
+  "outputs": [
+    {
+      "name": "classified_tile",
+      "type": "Directory",
+      "outputBindingGlob": "data"
+    }
+  ]
+}

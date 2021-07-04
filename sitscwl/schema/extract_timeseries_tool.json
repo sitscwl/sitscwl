@@ -1,0 +1,56 @@
+{
+  "inputs": [
+    {
+      "name": "script_extract_timeseries",
+      "type": "File",
+      "inputBindingPosition": 0
+    },
+    {
+      "name": "collection",
+      "type": "string",
+      "inputBindingPosition": 1
+    },
+    {
+      "name": "start_date",
+      "type": "string",
+      "inputBindingPosition": 2
+    },
+    {
+      "name": "end_date",
+      "type": "string",
+      "inputBindingPosition": 3
+    },
+    {
+      "name": "bands",
+      "type": "string",
+      "inputBindingPosition": 4
+    },
+    {
+      "name": "sample_tiles",
+      "type": "string",
+      "inputBindingPosition": 5
+    },
+    {
+      "name": "sample_file",
+      "type": "File",
+      "inputBindingPosition": 6
+    },
+    {
+      "name": "bdc_url",
+      "type": "string",
+      "inputBindingPosition": 7
+    },
+    {
+      "name": "bdc_access_token",
+      "type": "string",
+      "inputBindingPosition": 8
+    }
+  ],
+  "outputs": [
+    {
+      "name": "sample_with_extracted_ts",
+      "type": "File",
+      "outputBindingGlob": "data/samples_with_ts.rds"
+    }
+  ]
+}
