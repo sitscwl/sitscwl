@@ -1,0 +1,6 @@
+[
+  {
+    "source": "ExtracTimeseriesTool.sample_with_extracted_ts",
+    "target": "ClassificationTool.sample_file"
+  }
+]

@@ -1,3 +1,4 @@
+import json
 import os
 
 from sbg import cwl
@@ -28,6 +29,13 @@ TOOLS_DEFINITION = {
         ]
     }
 }
+
+TOOLS_CONNECTIONS = json.load(
+    open(
+        os.path.join(_base_path, "schema/connections.json")
+    )
+)
+
 """Workflow tools definitions"""
 
 BDC_STAC_URL = "https://brazildatacube.dpi.inpe.br/stac/"
