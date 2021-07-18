@@ -21,13 +21,12 @@ ml_model = RandomForest(num_trees=1000)
 #
 # Creating the SITS Compendium
 #
-
-memsize = 8
-cpusize = 4
+memsize = 16
+cpusize = 8
 
 bdc_access_token = ""
-compendium_dir = "cbers-bahiawest-lulc"
-samples = "data/samples-bahiawest.csv"
+compendium_dir = "lulc-bahia-cbers4"
+samples = "../data/samples-bahiawest.csv"
 
 sits_classification_compendium(
     basedir=compendium_dir,
