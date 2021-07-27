@@ -26,7 +26,7 @@ tile <- args[5]
 #
 # File System
 #
-output_path <- "data"
+output_path <- paste("data", tile, sep = "/")
 dir.create(output_path, recursive = TRUE, showWarnings = TRUE)
 
 #
