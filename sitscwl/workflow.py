@@ -1,3 +1,11 @@
+#
+# This file is part of sitscwl
+# Copyright (C) 2022 INPE.
+#
+# sitscwl is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+
 import itertools
 import json
 from typing import Dict
@@ -5,7 +13,8 @@ from typing import List
 
 from sbg import cwl
 
-from .tools import tool_builder
+from sitscwl import constant
+from sitscwl.tool import tool_builder
 
 
 def _create_workflow_input_with_intersection_values(tools: dict) -> List:
@@ -25,9 +34,7 @@ def _create_workflow_input_with_intersection_values(tools: dict) -> List:
     for tool in tools:
         tool_definitions = tools.get(tool)
 
-        inputs.extend(
-            json.load(open(tool_definitions["schema"], "r")).get("inputs")
-        )
+        inputs.extend(json.load(open(tool_definitions["schema"], "r")).get("inputs"))
 
     # only use "name" intersection
     intersected_names = list(set([d["name"] for d in inputs]))
@@ -40,7 +47,7 @@ def _create_workflow_input_with_intersection_values(tools: dict) -> List:
             cwl.WorkflowInput(
                 id=input_definition.get("name"),
                 label=input_definition.get("name"),
-                type=input_definition.get("type")
+                type=input_definition.get("type"),
             )
         )
     return workflow_inputs
@@ -82,15 +89,15 @@ class ClassificationWorkflow(object):
                 tool_obj,
                 scatter=None if not inputs_with_scatter else inputs_with_scatter,
                 scatter_method=scatter_method,
-                unique_names=False  # unique_names is added on https://github.com/M3nin0/sevenbridges-cwl/blob/master/sbg/cwl/v1_0/wf/workflow.py
+                unique_names=False,  # unique_names is added on https://github.com/M3nin0/sevenbridges-cwl/blob/master/sbg/cwl/v1_0/wf/workflow.py
             )
 
         # check connections
         def _remove_duplications(x, valid_connection):
-            if isinstance(x['source'], list) and len(x['source']) > 1:
-                for source in x['source']:
+            if isinstance(x["source"], list) and len(x["source"]) > 1:
+                for source in x["source"]:
                     if source == valid_connection.replace(".", "/"):
-                        x['source'] = source
+                        x["source"] = source
             return x
 
         for connection in connections:
@@ -99,8 +106,12 @@ class ClassificationWorkflow(object):
             # remove duplicated 'in' values from steps!
             # the 'duplicated' values is inserted with connections, so it's necessary remove them
             for idx, step in enumerate(self._workflow.steps):
-                self._workflow.steps[idx]['in'] = list(
-                    map(_remove_duplications, step['in'], itertools.repeat(connection["source"]))
+                self._workflow.steps[idx]["in"] = list(
+                    map(
+                        _remove_duplications,
+                        step["in"],
+                        itertools.repeat(connection["source"]),
+                    )
                 )
 
         # variable changed in scatter variable search
@@ -110,13 +121,13 @@ class ClassificationWorkflow(object):
         # define workflow input with only input intersections
         self._workflow.inputs = _create_workflow_input_with_intersection_values(tools)
 
+    @classmethod
+    def create(cls):
+        """Create a classification workflow."""
+        workflow_obj = cls()
+        workflow_obj.add_tools(constant.TOOLS_DEFINITION, constant.TOOLS_CONNECTIONS)
 
-from . import TOOLS_DEFINITION
-from . import TOOLS_CONNECTIONS
+        return workflow_obj
 
-classification_workflow = ClassificationWorkflow()
-classification_workflow.add_tools(TOOLS_DEFINITION, TOOLS_CONNECTIONS)
 
-__all__ = (
-    "classification_workflow"
-)
+__all__ = "ClassificationWorkflow"

@@ -1,14 +1,21 @@
+#
+# This file is part of sitscwl
+# Copyright (C) 2022 INPE.
+#
+# sitscwl is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+
 import json
 from abc import ABC
 from abc import abstractmethod
 
 from sbg import cwl
 
-from .mapping import guess_type
+from sitscwl.mapping import guess_cwl_type
 
 
 class CWLBuilder(ABC):
-
     @abstractmethod
     def add_id(self, id: str):
         pass
@@ -39,7 +46,6 @@ class CWLBuilder(ABC):
 
 
 class ToolBuilder(CWLBuilder):
-
     def __init__(self):
         self._tool = None
         self.reset()
@@ -65,7 +71,7 @@ class ToolBuilder(CWLBuilder):
             if element.get("isScatter", False):
                 element["type"] = element["type"].replace("[]", "")
 
-            element_type = guess_type(element["type"])
+            element_type = guess_cwl_type(element["type"])
 
             self._tool.add_input(
                 element_type(required=True),
@@ -73,22 +79,20 @@ class ToolBuilder(CWLBuilder):
                 label=element["name"],
                 input_binding=cwl.InputBinding(
                     position=element["inputBindingPosition"]
-                )
+                ),
             )
 
         return self
 
     def add_output_schema(self, output_schema: list):
         for element in output_schema:
-            element_type = guess_type(element["type"])
+            element_type = guess_cwl_type(element["type"])
 
             self._tool.add_output(
                 element_type(required=True),
                 element["name"],
                 label=element["name"],
-                output_binding=cwl.OutputBinding(
-                    glob=element["outputBindingGlob"]
-                )
+                output_binding=cwl.OutputBinding(glob=element["outputBindingGlob"]),
             )
         return self
 
@@ -108,23 +112,25 @@ class ToolBuilder(CWLBuilder):
         return self._tool
 
 
-def tool_builder(id: str, base_command: str, schema: str, requirements: list, hints: list):
+def tool_builder(
+    id: str, base_command: str, schema: str, requirements: list, hints: list
+):
     with open(schema, "r") as schema_file:
         schema_definitions: dict = json.load(schema_file)
 
         return (
             ToolBuilder()
-                .add_id(id)
-                .add_base_command(base_command)
-                .add_input_schema(schema_definitions.get("inputs"))
-                .add_output_schema(schema_definitions.get("outputs"))
-                .add_requirements(requirements)
-                .add_hints(hints)
+            .add_id(id)
+            .add_base_command(base_command)
+            .add_input_schema(schema_definitions.get("inputs"))
+            .add_output_schema(schema_definitions.get("outputs"))
+            .add_requirements(requirements)
+            .add_hints(hints)
         ).build()
 
 
 __all__ = (
     "CWLBuilder",
     "ToolBuilder",
-    "tool_builder"
+    "tool_builder",
 )

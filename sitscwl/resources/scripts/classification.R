@@ -4,14 +4,15 @@ library(sf)
 library(sits)
 
 #
-# CLI Arguments [collection, start_date, end_date, bands, tile, memsize, cpusize, samples_file, ml_model, bdc_url, bdc_access_token]
+# CLI Arguments
+# [collection, start_date, end_date, bands, tile, memsize, cpusize, samples_file, ml_model, seed]
 #
 args <- commandArgs(TRUE)
 
 #
-# Defining Access Token
+# Defining randomic seed
 #
-Sys.setenv("BDC_ACCESS_KEY" = args[11])
+set.seed(args[10])
 
 #
 # General definitions
@@ -32,21 +33,19 @@ dir.create(output_path, recursive = TRUE, showWarnings = TRUE)
 #
 # Resources
 #
-memsize <- as.numeric(args[6])
+memsize    <- as.numeric(args[6])
 multicores <- as.numeric(args[7])
 
 #
 # Defining Data Cube
 #
 cube <- sits_cube(
-  source = "BDC",
-  name = "cube",
-  url = args[10],
+  source     = "BDC",
   collection = collection,
   start_date = start_date,
-  end_date = end_date,
-  tiles = c(tile),
-  bands = strsplit(bands, ",")[[1]]
+  end_date   = end_date,
+  tiles      = c(tile),
+  bands      = strsplit(bands, ",")[[1]]
 )
 
 #
@@ -57,7 +56,7 @@ samples <- readRDS(args[8])
 #
 # Training ML  Model
 #
-ml_model <- sits_train(data = samples,
+ml_model <- sits_train(data      = samples,
                        ml_method = eval(parse(
                          text = args[9]
                        )))
@@ -66,17 +65,17 @@ ml_model <- sits_train(data = samples,
 # Classify the Data Cube
 #
 probs_cube <- sits_classify(cube,
-                            ml_model = ml_model,
+                            ml_model   = ml_model,
                             output_dir = output_path,
                             multicores = multicores,
-                            memsize = memsize)
+                            memsize    = memsize)
 
 #
 # Classify Smoothed Map
 #
 probs_smoothed_cube <- sits_smooth(probs_cube,
                                    output_dir = output_path,
-                                   memsize = memsize)
+                                   memsize    = memsize)
 
 label_cube <- sits_label_classification(probs_smoothed_cube,
                                         output_dir = output_path)

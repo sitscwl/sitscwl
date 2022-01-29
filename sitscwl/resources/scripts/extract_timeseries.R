@@ -1,20 +1,34 @@
-set.seed(777)
-
-library(sf)
-library(sits)
+#
+# This file is part of sitscwl
+# Copyright (C) 2022 INPE.
+#
+# sitscwl is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
 
 #
-# CLI Arguments [collection, start_date, end_date, bands, tiles, samples_file, bdc_url, bdc_access_token]
+# CLI Arguments [collection, start_date, end_date, bands, tiles, samples_file, seed]
 #
 args <- commandArgs(TRUE)
 
 #
-# Defining Access Token
+# Defining randomic seed
+#
+set.seed(args[7])
+
+#
+# Loading the base libraries.
+#
+library(sf)
+library(sits)
+
+#
+# Defining Access Token.
 #
 Sys.setenv("BDC_ACCESS_KEY" = args[8])
 
 #
-# General definitions
+# General definitions.
 #
 collection <- args[1]
 start_date <- args[2]
@@ -24,7 +38,7 @@ bands <- args[4]
 tiles <- args[5]
 
 #
-# File System
+# File System.
 #
 output_path <- "data"
 dir.create(output_path, recursive = TRUE, showWarnings = TRUE)

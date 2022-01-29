@@ -1,24 +1,29 @@
+#
+# This file is part of sitscwl
+# Copyright (C) 2022 INPE.
+#
+# sitscwl is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+
 import json
-import os
-import pathlib
 import shutil
 from abc import ABC
 from abc import abstractmethod
+from pathlib import Path
 from typing import List
 
+from sitscwl import constant
 from sitscwl.models import SITSMachineLearningModel, SITSCube
+from sitscwl.workflow import ClassificationWorkflow
 
 
 def _remove_first_dir(path):
-    return str(
-        pathlib.Path(
-            *pathlib.Path(path).parts[1:]
-        )
-    )
+    """Remove first directory from path."""
+    return str(Path(*Path(path).parts[1:]))
 
 
 class PackageBuilder(ABC):
-
     @abstractmethod
     def add_sample_file(self, sample_file):
         pass
@@ -73,21 +78,22 @@ class PackageBuilder(ABC):
 
 
 class SITSPackageBuilder(PackageBuilder):
-
     def __init__(self, basedir):
-        self._basedir = basedir
+        self._basedir = Path(basedir)
         self._package_configurations = {}
 
     def add_sample_file(self, sample_file):
-        if not os.path.isfile(sample_file):
+        if not Path(sample_file).is_file():
             raise FileNotFoundError(f"{sample_file} not found!")
 
         if ".shp" in sample_file:
-            raise NotImplemented("Shapefile support is not implemented yet. Instead, use a csv file")
+            raise NotImplemented(
+                "Shapefile support is not implemented yet. Instead, use a `csv` file"
+            )
 
         self._package_configurations["sample_file"] = {
             "class": "File",
-            "path": sample_file
+            "path": sample_file,
         }
 
         return self
@@ -157,7 +163,7 @@ class SITSPackageBuilder(PackageBuilder):
         if not isinstance(cube, SITSCube):
             raise TypeError("cube must be a SITSCube")
 
-        for propertie in list(filter(lambda x: '__' not in x, dir(cube))):
+        for propertie in list(filter(lambda x: "__" not in x, dir(cube))):
             propertie_value = getattr(cube, propertie)
 
             if propertie_value:
@@ -166,28 +172,20 @@ class SITSPackageBuilder(PackageBuilder):
         return self
 
     def build(self):
+        # Configuring the directories.
+        samples_dir = self._basedir / "data"
+        samples_dir.mkdir(exist_ok=True, parents=True)
 
-        #
-        # Creating base directory
-        #
-        os.makedirs(self._basedir, exist_ok=True)
-
-        #
-        # Copy sample files
-        #
         original_sample_file = self._package_configurations["sample_file"]["path"]
+        target_samples_file = samples_dir / Path(original_sample_file).name
 
-        samples_dir = os.path.join(self._basedir, "data")
-        os.makedirs(samples_dir, exist_ok=True)
+        shutil.copy(str(original_sample_file), str(target_samples_file))
 
-        target_samples_file = os.path.join(samples_dir, os.path.basename(original_sample_file))
-        shutil.copy(original_sample_file, target_samples_file)
+        self._package_configurations["sample_file"]["path"] = _remove_first_dir(
+            target_samples_file
+        )
 
-        self._package_configurations["sample_file"]["path"] = _remove_first_dir(target_samples_file)
-
-        #
         # Configuring bands and tiles
-        #
         bands = self._package_configurations["bands"]
         tiles = self._package_configurations["tiles"]
 
@@ -197,59 +195,50 @@ class SITSPackageBuilder(PackageBuilder):
         if not self._package_configurations.get("sample_tiles", False):
             self._package_configurations["sample_tiles"] = ",".join(tiles)
 
-        #
         # Copying R scripts
-        #
-        from . import SITS_R_SCRIPTS
+        package_dir = Path(__file__)
 
-        package_dir = os.path.dirname(__file__)
-        scripts_dir = os.path.join(self._basedir, "scripts")
+        scripts_dir = self._basedir / "analysis"
+        scripts_dir.mkdir(exist_ok=True, parents=True)
 
-        os.makedirs(scripts_dir, exist_ok=True)
+        for key, value in constant.SITS_R_SCRIPTS.items():
+            source = package_dir / value
+            target = scripts_dir / value.name
 
-        for key in SITS_R_SCRIPTS.keys():
-            source = os.path.join(package_dir, SITS_R_SCRIPTS[key])
-            target = os.path.join(scripts_dir, os.path.basename(SITS_R_SCRIPTS[key]))
-
-            shutil.copy(source, target)
+            shutil.copy(str(source), str(target))
 
             self._package_configurations[key] = {
                 "class": "File",
-                "path": _remove_first_dir(target)
+                "path": _remove_first_dir(target),
             }
 
-        #
-        # Save inputs and workflow file
-        #
+        # Saving inputs and workflow file
 
         # inputs
-        with open(os.path.join(self._basedir, "inputs.json"), "w") as file:
-            json.dump(self._package_configurations, file)
+        with (self._basedir / "inputs.json").open(mode="w") as ofile:
+            json.dump(self._package_configurations, ofile)
 
         # workflow
-        from .workflow import classification_workflow
-        classification_workflow.workflow.dump(
-            os.path.join(self._basedir, "workflow.cwl")
-        )
+        ClassificationWorkflow.create().workflow.dump(self._basedir / "workflow.cwl")
 
 
-def sits_classification_compendium(basedir, cube, sample_file, ml_model, memsize, cpusize, bdc_access_token):
-    from . import BDC_STAC_URL
-
+def make_classification_compendium(
+    basedir, cube, sample_file, ml_model, memsize, cpusize, bdc_access_token
+):
     (
         SITSPackageBuilder(basedir)
-            .from_cube(cube)
-            .add_sample_file(sample_file)
-            .add_ml_model(ml_model)
-            .add_memsize(memsize)
-            .add_cpusize(cpusize)
-            .add_bdcstac_url(BDC_STAC_URL)
-            .add_bdc_access_token(bdc_access_token)
+        .from_cube(cube)
+        .add_sample_file(sample_file)
+        .add_ml_model(ml_model)
+        .add_memsize(memsize)
+        .add_cpusize(cpusize)
+        .add_bdcstac_url(constant.BDC_STAC_URL)
+        .add_bdc_access_token(bdc_access_token)
     ).build()
 
 
 __all__ = (
     "PackageBuilder",
     "SITSPackageBuilder",
-    "sits_classification_compendium"
+    "make_classification_compendium",
 )
