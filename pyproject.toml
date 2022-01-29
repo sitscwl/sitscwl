@@ -1,15 +1,33 @@
 [tool.poetry]
 name = "sitscwl"
 version = "0.1a"
-description = "Satellite Image Time Series with CWL batteries included"
-authors = ["Felipe Menino <efelipecarlos@gmail.com>"]
 license = "MIT"
+
+authors = ["Felipe Menino Carlos <efelipecarlos@gmail.com>"]
+
+readme = "README.rst"
+description = "SITS R Package with CWL batteries included"
+
+include = ["sitscwl/resources/*"]
+
+classifiers = [
+    'Development Status :: 1 - Planning',
+    'Environment :: Web Environment',
+    'Intended Audience :: Education',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3.7',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Scientific/Engineering :: GIS',
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-sevenbridges-cwl = {git = "https://github.com/M3nin0/sevenbridges-cwl"}
+sevenbridges-cwl = {git = "https://github.com/M3nin0/sevenbridges-cwl", rev = "master"}
 
 [tool.poetry.dev-dependencies]
+black = "^22.1.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
