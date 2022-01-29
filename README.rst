@@ -4,6 +4,10 @@
     sitscwl is free software; you can redistribute it and/or modify
     it under the terms of the MIT License; see LICENSE file for more details.
 
+.. image:: .github/assets/sitscwl.png
+    :align: right
+    :width: 200
+
 ======================================================
  sitscwl - SITS R Package with CWL batteries included
 ======================================================
