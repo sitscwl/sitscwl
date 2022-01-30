@@ -52,14 +52,19 @@
       "inputBindingPosition": 9
     },
     {
+      "name": "seed",
+      "type": "int",
+      "inputBindingPosition": 10
+    },
+    {
       "name": "bdc_url",
       "type": "string",
-      "inputBindingPosition": 10
+      "inputBindingPosition": 11
     },
     {
       "name": "bdc_access_token",
       "type": "string",
-      "inputBindingPosition": 11
+      "inputBindingPosition": 12
     }
   ],
   "outputs": [

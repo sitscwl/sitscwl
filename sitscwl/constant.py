@@ -25,7 +25,7 @@ BDC_STAC_URL = "https://brazildatacube.dpi.inpe.br/stac/"
 SITS_CPU_HINT = 4
 SITS_MEM_HINT = 4096
 
-SITS_ENVIRONMENT_IMAGE = "brazildatacube/sits:0.12.0"
+SITS_ENVIRONMENT_IMAGE = "brazildatacube/sits:0.15.0-2"
 
 SITS_R_SCRIPTS = {
     "script_extract_timeseries": resource_path(
@@ -61,7 +61,7 @@ TOOLS_DEFINITION = {
         "requirements": [
             cwl.Docker(docker_pull=SITS_ENVIRONMENT_IMAGE),
             cwl.EnvVar(
-                cwl.EnvironmentDef("BDC_ACCESS_TOKEN", "$inputs.bdc_access_token")
+                [cwl.EnvironmentDef("BDC_ACCESS_KEY", "$(inputs.bdc_access_token)")]
             ),
         ],
         "hints": [cwl.Resource(cores_min=SITS_CPU_HINT, ram_min=SITS_MEM_HINT)],
@@ -73,7 +73,7 @@ TOOLS_DEFINITION = {
         "requirements": [
             cwl.Docker(docker_pull=SITS_ENVIRONMENT_IMAGE),
             cwl.EnvVar(
-                cwl.EnvironmentDef("BDC_ACCESS_TOKEN", "$inputs.bdc_access_token")
+                [cwl.EnvironmentDef("BDC_ACCESS_KEY", "$(inputs.bdc_access_token)")]
             ),
         ],
         "hints": [cwl.Resource(cores_min=SITS_CPU_HINT, ram_min=SITS_MEM_HINT)],

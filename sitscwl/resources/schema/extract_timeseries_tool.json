@@ -36,14 +36,24 @@
       "inputBindingPosition": 6
     },
     {
+      "name": "cpusize",
+      "type": "int",
+      "inputBindingPosition": 7
+    },
+    {
+      "name": "seed",
+      "type": "int",
+      "inputBindingPosition": 8
+    },
+    {
       "name": "bdc_url",
       "type": "string",
-      "inputBindingPosition": 7
+      "inputBindingPosition": 9
     },
     {
       "name": "bdc_access_token",
       "type": "string",
-      "inputBindingPosition": 8
+      "inputBindingPosition": 10
     }
   ],
   "outputs": [

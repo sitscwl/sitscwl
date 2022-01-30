@@ -1,7 +1,10 @@
-set.seed(777)
-
-library(sf)
-library(sits)
+#
+# This file is part of sitscwl
+# Copyright (C) 2022 INPE.
+#
+# sitscwl is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
 
 #
 # CLI Arguments
@@ -15,14 +18,20 @@ args <- commandArgs(TRUE)
 set.seed(args[10])
 
 #
+# Loading the base libraries.
+#
+library(sf)
+library(sits)
+
+#
 # General definitions
 #
 collection <- args[1]
 start_date <- args[2]
-end_date <- args[3]
-bands <- args[4]
+end_date   <- args[3]
+bands      <- args[4]
 
-tile <- args[5]
+tile       <- args[5]
 
 #
 # File System

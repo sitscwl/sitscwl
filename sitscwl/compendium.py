@@ -149,6 +149,11 @@ class SITSPackageBuilder(PackageBuilder):
 
         return self
 
+    def add_seed(self, seed):
+        self._package_configurations["seed"] = seed
+
+        return self
+
     def add_bdcstac_url(self, bdcstac_url):
         self._package_configurations["bdc_url"] = bdcstac_url
 
@@ -223,7 +228,7 @@ class SITSPackageBuilder(PackageBuilder):
 
 
 def make_classification_compendium(
-    basedir, cube, sample_file, ml_model, memsize, cpusize, bdc_access_token
+    basedir, cube, sample_file, ml_model, memsize, cpusize, bdc_access_token, seed=777
 ):
     (
         SITSPackageBuilder(basedir)
@@ -234,6 +239,7 @@ def make_classification_compendium(
         .add_cpusize(cpusize)
         .add_bdcstac_url(constant.BDC_STAC_URL)
         .add_bdc_access_token(bdc_access_token)
+        .add_seed(seed)
     ).build()
 
 
