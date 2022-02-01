@@ -33,7 +33,7 @@
 Overview
 ========
 
-The `sitscwl` is a Python library created to facilitate the production of reproducible **C**ommon **W**orkflow **L**anguage (CWL) workflows for generating Land Use and Land Cover maps made with the R SITS package.
+The `sitscwl` is a Python library created to facilitate the production of reproducible Common Workflow Language (CWL) workflows for generating Land Use and Land Cover maps made with the R SITS package.
 
 The CWL workflow generation approach adopted by `sitscwl` assumes three simple steps:
 
@@ -53,11 +53,11 @@ The conceptual view of the `sitscwl` workflow is presented in the figure below:
 Obtaining sitscwl
 ------------------
 
-`sitscwl` is currently available on github. You can install it using the following command in your shell:
+`sitscwl` is currently available on github. You can install it using the following command in your shell::
 
     pip install git+https://github.com/sitscwl/sitscwl
 
-or
+or ::
 
     poetry add git+https://github.com/sitscwl/sitscwl
 
