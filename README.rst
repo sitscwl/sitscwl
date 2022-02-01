@@ -33,9 +33,9 @@
 Overview
 ========
 
-The `sitscwl` is a Python library created to facilitate the production of reproducible Common Workflow Language (CWL) workflows for generating Land Use and Land Cover maps made with the R SITS package.
+The ``sitscwl`` is a Python library created to facilitate the production of reproducible Common Workflow Language (CWL) workflows for generating Land Use and Land Cover maps made with the R SITS package.
 
-The CWL workflow generation approach adopted by `sitscwl` assumes three simple steps:
+The CWL workflow generation approach adopted by ``sitscwl`` assumes three simple steps:
 
 1. **Classification description**: In this step, the user describes the classification that must be performed with the SITS package. In this description, the specification is made: (i) Data source; (ii) Machine Learning Algorithm; (iii) Spatiotemporal extension; (iv) Samples used to train the Machine Learning algorithm;
 2. **Generate the SITS Compendium**: Based in the classification metadata, defined in the previsous step, a classification research compendium is generated. In this compendium, all elements required for the classification is organized in a clear and reproducible way;
@@ -43,9 +43,9 @@ The CWL workflow generation approach adopted by `sitscwl` assumes three simple s
 
 .. note::
 
-    **Recomendation**: The classification methodology used in the `sitscwl` is based on the `SITS R Package <https://github.com/e-sensing/sits>`_, so its recommended, before use the `sitscwl`, learn more about the SITS R Package itself. For more information about the SITS classification methodology, please refer to `Simoes et al (2021) <https://doi.org/10.3390/rs13132428>`_.
+    **Recomendation**: The classification methodology used in the ``sitscwl`` is based on the `SITS R Package <https://github.com/e-sensing/sits>`_, so its recommended, before use the `sitscwl`, learn more about the SITS R Package itself. For more information about the SITS classification methodology, please refer to `Simoes et al (2021) <https://doi.org/10.3390/rs13132428>`_.
 
-The conceptual view of the `sitscwl` workflow is presented in the figure below:
+The conceptual view of the ``sitscwl`` workflow is presented in the figure below:
 
 .. image:: .github/assets/workflow/sitscwl-workflow.png
    :align: center
@@ -53,7 +53,7 @@ The conceptual view of the `sitscwl` workflow is presented in the figure below:
 Obtaining sitscwl
 ------------------
 
-`sitscwl` is currently available on github. You can install it using the following command in your shell::
+``sitscwl`` is currently available on github. You can install it using the following command in your shell::
 
     pip install git+https://github.com/sitscwl/sitscwl
 
@@ -64,4 +64,4 @@ or ::
 Usage example
 -------------
 
-Check the `examples` directory to examples of how to use the `sitscwl`.
+Check the ``examples`` directory to examples of how to use the ``sitscwl``.
