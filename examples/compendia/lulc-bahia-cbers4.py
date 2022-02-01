@@ -15,8 +15,8 @@ from sitscwl.models import SITSCube
 #
 sits_cube = SITSCube(
     collection="CB4_64_16D_STK-1",
-    start_date="2018-09-14",
-    end_date="2019-07-28",
+    start_date="2018-08-29",
+    end_date="2019-08-29",
     bands=["BAND13", "BAND14", "BAND15", "BAND16", "EVI", "NDVI", "CMASK"],
     tiles=["022024"],
 )
