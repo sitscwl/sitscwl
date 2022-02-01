@@ -25,7 +25,7 @@ BDC_STAC_URL = "https://brazildatacube.dpi.inpe.br/stac/"
 SITS_CPU_HINT = 4
 SITS_MEM_HINT = 4096
 
-SITS_ENVIRONMENT_IMAGE = "brazildatacube/sits:0.15.0-2"
+SITS_ENVIRONMENT_IMAGE = "brazildatacube/sits:0.16.2"
 
 SITS_R_SCRIPTS = {
     "script_extract_timeseries": resource_path(
