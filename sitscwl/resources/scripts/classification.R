@@ -57,6 +57,13 @@ cube <- sits_cube(
   bands      = strsplit(bands, ",")[[1]]
 )
 
+# Fixing data cube resolutions (Temporary)
+cube$file_info <- lapply(cube$file_info, function(x) {
+    x$xres <- as.numeric(substring(toString(x$xres), 1, 5))
+    x$yres <- as.numeric(substring(toString(x$yres), 1, 5))
+    x
+})
+
 #
 # Extract Samples Time Series
 #
