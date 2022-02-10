@@ -14,4 +14,5 @@ FROM brazildatacube/sits:0.16.0
 #
 RUN Rscript -e "devtools::install_github('e-sensing/sits@v0.15.1-1')" \
 	&& Rscript -e "devtools::install_version('tidyr', version='1.2.0', repos = c('https://vps.fmvz.usp.br/CRAN/'))" \
+  && Rscript -e "devtools::install_version('raster', version='3.3-13', repos = c('https://vps.fmvz.usp.br/CRAN/'))" \
 	&& Rscript -e "devtools::install_version('terra', version = '1.4.22', repos = c('https://vps.fmvz.usp.br/CRAN/'))"

@@ -17,10 +17,7 @@ RUN apt-get update -y \
        python3-dev \
        git \
        curl \
-    && rm -rf /var/lib/apt/lists/* \
-    # Installing poetry
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
-    poetry config virtualenvs.create false
+    && rm -rf /var/lib/apt/lists/*
 
 #
 # Installing the SITS CWL library
@@ -28,4 +25,4 @@ RUN apt-get update -y \
 COPY . sitscwl
 
 RUN cd sitscwl \
-    poetry install
+    pip install .
