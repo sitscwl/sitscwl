@@ -21,13 +21,16 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        
+    - name: Get the tag name
+      run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
     - name: Build and push (SITS CWL)
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: m3nin0/sitscwl:${{ github.event.release.tag_name }}
+        tags: m3nin0/sitscwl:${{ env.TAG }}
         file: docker/library/Dockerfile
 
   build-environment-image:
@@ -46,10 +49,13 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Get the tag name
+      run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
     - name: Build and push (SITS CWL Execution environment)
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: m3nin0/sits:${{ github.event.release.tag_name }}
+        tags: m3nin0/sits:${{ env.TAG }}
         file: docker/execution/Dockerfile
