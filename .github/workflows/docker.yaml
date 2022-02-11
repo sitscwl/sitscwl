@@ -25,7 +25,7 @@ jobs:
     - name: Branch name
       id: branch_name
       run: |
-        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        echo ::set-output name=SOURCE_TAG::${GITHUB_REF/refs\/tags\//}
 
     - name: Build and push (SITS CWL)
       uses: docker/build-push-action@v2
@@ -56,7 +56,7 @@ jobs:
     - name: Branch name
       id: branch_name
       run: |
-        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        echo ::set-output name=SOURCE_TAG::${GITHUB_REF/refs\/tags\//}
 
     - name: Build and push (SITS CWL)
       uses: docker/build-push-action@v2
