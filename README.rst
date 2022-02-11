@@ -66,11 +66,9 @@ Using sitscwl
 
 To use the ``sitscwl``, first, you need to create a Python script. In this script, you will use the ``sitscwl`` API to create a SITS-based CWL classification compendium. Below, a step-by-step guide is presented in how to use the ``sitscwl`` API:
 
-1. Importing the ``sitscwl``
+**1. Importing the sitscwl**
 
 .. code-block:: python
-   :linenos:
-
 
    # Random Forest model API.
    from sitscwl.models import RandomForest
@@ -82,11 +80,9 @@ To use the ``sitscwl``, first, you need to create a Python script. In this scrip
    from sitscwl.compendium import make_classification_compendium
 
 
-2. Defining the data cube
+**2. Defining the data cube**
 
 .. code-block:: python
-   :linenos:
-
 
    # Defining the data cube object
    sits_cube = SITSCube(
@@ -98,20 +94,25 @@ To use the ``sitscwl``, first, you need to create a Python script. In this scrip
    )
 
 
-3. Defining the Machine Learning Model
+**3. Defining the Machine Learning Model**
 
 .. code-block:: python
-   :linenos:
 
-
+   # ML Model definition.
+   # You can create another models using Machine Learning algorithms such as:
+   #  - SupportVectorMachines;
+   #  - MultinomialLogitWithLassoAndRidge;
+   #  - ExtremeGradientBoosting;
+   #  - MultiLayerPerceptron;
+   #  - DeepResidualNetworks;
+   #  - TemporalConvolutionalNeuralNetwork.
+   # Details can be founded in the SITS R Package documentation.
    ml_model = RandomForest(num_trees=1000)
 
 
-4. Creating the SITS-based Classification compendium
+**4. Defining the Classification Compendium resources**
 
 .. code-block:: python
-   :linenos:
-
 
    # Computational Resources
    memsize = 16 # GB
@@ -122,7 +123,12 @@ To use the ``sitscwl``, first, you need to create a Python script. In this scrip
    samples = ""  # Samples used to train the ML Model
 
    # Service Resources
-   bdc_access_token = "" (Brazil Data Cube Access Token)
+   bdc_access_token = "" # (Valid Brazil Data Cube Access Token)
+ 
+
+**5. Creating the Classification Compendium**
+
+.. code-block:: python
 
    # Creating the classification compendium.
    make_classification_compendium(
@@ -135,6 +141,6 @@ To use the ``sitscwl``, first, you need to create a Python script. In this scrip
       bdc_access_token=bdc_access_token,
    )
 
-> If needed, you can create a ``Brazil Data Cube Access Token``, please check this `<tutorial https://brazil-data-cube.github.io/applications/dc_explorer/token-module.html>`_.
-   
-More examples ? Check the ``examples`` directory.
+Good! Now you can create LULC Classification compendia and use it in different scales. If you need more about examples, you can check the ``examples`` directory.
+
+**Note**: If needed, you can create a ``Brazil Data Cube Access Token``, using the followng tutorial: `tutorial <https://brazil-data-cube.github.io/applications/dc_explorer/token-module.html>`_.
