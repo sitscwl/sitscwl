@@ -61,7 +61,80 @@ or ::
 
     poetry add git+https://github.com/sitscwl/sitscwl
 
-Usage example
--------------
+Using sitscwl
+--------------
 
-Check the ``examples`` directory to examples of how to use the ``sitscwl``.
+To use the ``sitscwl``, first, you need to create a Python script. In this script, you will use the ``sitscwl`` API to create a SITS-based CWL classification compendium. Below, a step-by-step guide is presented in how to use the ``sitscwl`` API:
+
+1. Importing the ``sitscwl``
+
+.. code-block:: python
+   :linenos:
+
+
+   # Random Forest model API.
+   from sitscwl.models import RandomForest
+
+   # SITS Cube API.
+   from sitscwl.models import SITSCube
+
+   # Classification compendium auxiliary function.
+   from sitscwl.compendium import make_classification_compendium
+
+
+2. Defining the data cube
+
+.. code-block:: python
+   :linenos:
+
+
+   # Defining the data cube object
+   sits_cube = SITSCube(
+      collection="CB4_64_16D_STK-1",
+      start_date="2018-08-29",
+      end_date="2019-08-29",
+      bands=["BAND13", "BAND14", "BAND15", "BAND16", "EVI", "NDVI", "CMASK"],
+      tiles=["022024"],
+   )
+
+
+3. Defining the Machine Learning Model
+
+.. code-block:: python
+   :linenos:
+
+
+   ml_model = RandomForest(num_trees=1000)
+
+
+4. Creating the SITS-based Classification compendium
+
+.. code-block:: python
+   :linenos:
+
+
+   # Computational Resources
+   memsize = 16 # GB
+   cpusize = 8
+
+   # Data Resources
+   compendium_dir = ""  # Where the generated compendium will be saved
+   samples = ""  # Samples used to train the ML Model
+
+   # Service Resources
+   bdc_access_token = "" (Brazil Data Cube Access Token)
+
+   # Creating the classification compendium.
+   make_classification_compendium(
+      basedir=compendium_dir,
+      cube=sits_cube,
+      ml_model=ml_model,
+      sample_file=samples,
+      memsize=memsize,
+      cpusize=cpusize,
+      bdc_access_token=bdc_access_token,
+   )
+
+> If needed, you can create a ``Brazil Data Cube Access Token``, please check this `<tutorial https://brazil-data-cube.github.io/applications/dc_explorer/token-module.html>`_.
+   
+More examples ? Check the ``examples`` directory.
